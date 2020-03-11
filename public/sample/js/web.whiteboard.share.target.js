@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let localStream;
   let roomId;
   let configuration;
+  let penColor;
  
   let isDrawing = false;
   let context = whiteboard.getContext('2d');
@@ -112,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
  
     if (data.signalOp === 'Draw') {
-      setPen();
+      setPen(penColor);
       whiteboard.style.display = 'inline-block';
  
       let canvasX;
@@ -146,6 +147,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (data.signalOp === 'Reset') {
       context.clearRect(0, 0, whiteboard.width, whiteboard.height);
     }
+
+    if (data.signalOp === 'Color'){
+      penColor = data.color
+    }
   });
  
   function onIceCandidateHandler(e) {
@@ -177,12 +182,12 @@ document.addEventListener('DOMContentLoaded', function() {
     remoteVideo.srcObject = e.stream;
   }
  
-  function setPen() {
+  function setPen(color, width) {
     context.globalCompositeOperation = 'source-over';
     context.lineJoin = 'round';
     context.lineCap = 'round';
-    context.strokeStyle = 'black';
-    context.lineWidth = '5';
+    context.strokeStyle = color;
+    context.lineWidth = width;
   }
  
   loginBtn.addEventListener('click', function(e) {

@@ -11,5 +11,5 @@ app.set('view engine', 'html');
 app.use(express.static('public'));
  
 http.createServer(app).listen(port, host, () => {
-    console.log(`Server running at http://${host}:${port}/`)
+    console.log(`Server running at http://${host}:${port}/sample/web.whiteboard.share.html`)
 });

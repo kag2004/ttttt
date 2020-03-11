@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const remoteVideo = document.getElementById('remoteVideo');
     const whiteboardBtn = document.getElementById('whiteboardBtn');
     const whiteboard = document.getElementById('whiteboard');
+    const blackPen = document.getElementById('blackPen');
+    const redPen = document.getElementById('redPen');
+    const bluePen = document.getElementById('bluePen');
 
     // const canvas = document.getElementById("jsCanvas");
     // const context = canvas.getContext("2d");
@@ -247,6 +250,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     });
+
+    
    
     // 그림판 쪽?
     let isDrawing = false;
@@ -286,6 +291,54 @@ document.addEventListener('DOMContentLoaded', function() {
         context.closePath();
       });
     }
+
+    blackPen.addEventListener('click', e => {
+      blackPen.disabled = true;
+      redPen.disabled = false;
+      bluePen.disabled = false;
+
+      context.strokeStyle = 'black';
+
+      let colorData = {
+        signalOp:	"Color",
+        reqNo:	"1234567",
+        color:	"#000000"
+      }
+
+      signalSocketIo.emit('knowledgetalk', colorData);
+
+    })
+
+    redPen.addEventListener('click', e => {
+      blackPen.disabled = false;
+      redPen.disabled = true;
+      bluePen.disabled = false;
+      context.strokeStyle = 'red';
+
+      let colorData = {
+        signalOp:	"Color",
+        reqNo:	"1234567",
+        color:	"#ff0000"
+      }
+
+      signalSocketIo.emit('knowledgetalk', colorData);
+    })
+
+    bluePen.addEventListener('click', e => {
+      blackPen.disabled = false;
+      redPen.disabled = false;
+      bluePen.disabled = true
+      context.strokeStyle = 'blue';
+
+      let colorData = {
+        signalOp:	"Color",
+        reqNo:	"1234567",
+        color:	"#0000ff"
+      }
+
+      signalSocketIo.emit('knowledgetalk', colorData);
+
+    })
    
     function setPen() {
       context.globalCompositeOperation = 'source-over';
